@@ -46,12 +46,27 @@ export class AppController {
   }
 
   @Put(':id')
-  updateReport() {
-    return 'Report updated';
+  updateReport(
+    @Body() body: { amount: number; source: string },
+    @Param('id') id: string,
+  ) {
+    console.log(id);
+    data.report = data.report.map((el) =>
+      el.id === id
+        ? {
+            ...el,
+            amount: body.amount,
+            source: body.source,
+            updated_at: new Date(),
+          }
+        : { ...el },
+    );
+    return data.report.filter((el) => el.id === id)[0];
   }
 
   @Delete(':id')
-  deleteReport() {
+  deleteReport(@Param('id') id: string) {
+    data.report = data.report.filter((el) => el.id !== id);
     return 'Report deleted';
   }
 }
