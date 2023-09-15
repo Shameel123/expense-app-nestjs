@@ -11,8 +11,14 @@ export class AppController {
   }
 
   @Get(':id')
-  getReportById(): any {
-    return 'Report by id';
+  getReportById(@Param('type') type: string, @Param('id') id: string): any {
+    const reportType =
+      type === 'income' ? REPORT_TYPE.INCOME : REPORT_TYPE.EXPENSE;
+    return {
+      report: data.report.filter(
+        (el) => el.type === reportType && el.id === id,
+      )[0],
+    };
   }
 
   @Post()
