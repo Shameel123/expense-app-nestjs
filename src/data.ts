@@ -1,30 +1,46 @@
-interface Data {
+export interface Data {
   report: {
     id: string;
     source: string;
     amount: number;
     created_at: Date;
     updated_at: Date;
-    type: ReportType;
+    type: REPORT_TYPE;
   }[];
 }
 
-enum ReportType {
+export enum REPORT_TYPE {
   INCOME = 'income',
   EXPENSE = 'expense',
 }
 
-const data: Data = {
+export const data: Data = {
   report: [],
 };
 
-// data.report.push({
-//   id: '1',
-//   source: 'source1',
-//   amount: 100,
-//   created_at: new Date(),
-//   updated_at: new Date(),
-//   type: ReportType.INCOME,
-// });
-
-export default data;
+data.report.push(
+  {
+    id: '1',
+    source: 'source1',
+    amount: 100,
+    created_at: new Date(),
+    updated_at: new Date(),
+    type: REPORT_TYPE.INCOME,
+  },
+  {
+    id: '2',
+    source: 'source2',
+    amount: 200,
+    created_at: new Date(),
+    updated_at: new Date(),
+    type: REPORT_TYPE.INCOME,
+  },
+  {
+    id: '3',
+    source: 'source3',
+    amount: 200,
+    created_at: new Date(),
+    updated_at: new Date(),
+    type: REPORT_TYPE.EXPENSE,
+  },
+);
