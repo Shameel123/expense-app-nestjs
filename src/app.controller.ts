@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { Data, data, REPORT_TYPE } from './data';
 import { AppService } from './app.service';
+import { CreateReportDto, UpdateReportDto } from './dtos/report.dto';
 
 @Controller('report/:type')
 export class AppController {
@@ -34,15 +35,12 @@ export class AppController {
   }
 
   @Post()
-  createReport(@Body() body: { amount: number; source: string; type: string }) {
+  createReport(@Body() body: CreateReportDto) {
     return this.appService.createReport(body);
   }
 
   @Put(':id')
-  updateReport(
-    @Body() body: { amount: number; source: string },
-    @Param('id') id: string,
-  ) {
+  updateReport(@Body() body: UpdateReportDto, @Param('id') id: string) {
     return this.appService.updateReport(body, id);
   }
 

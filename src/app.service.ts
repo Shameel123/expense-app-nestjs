@@ -26,7 +26,7 @@ export class AppService {
     return newReport;
   }
 
-  updateReport(body: { amount: number; source: string }, id: string): any {
+  updateReport(body: { amount?: number; source?: string }, id: string): any {
     const report = data.report.filter((el) => el.id === id)[0];
     report.amount = body.amount;
     report.source = body.source;
