@@ -1,17 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { REPORT_TYPE, data } from './data';
+import { ReportResponseDTO } from './dtos/report.dto';
 
 @Injectable()
 export class AppService {
-  getAllReports(type: REPORT_TYPE): any {
-    return { report: data.report.filter((el) => el.type === type) };
+  getAllReports(type: REPORT_TYPE): ReportResponseDTO[] {
+    return data.report
+      .filter((el) => el.type === type)
+      .map((report) => new ReportResponseDTO(report));
   }
-  getReportById(type: REPORT_TYPE, id: string): any {
-    return {
-      report: data.report.filter((el) => el.type === type && el.id === id)[0],
-    };
+  getReportById(type: REPORT_TYPE, id: string): ReportResponseDTO {
+    return new ReportResponseDTO(
+      data.report.filter((el) => el.type === type && el.id === id)[0],
+    );
   }
-  createReport(body: { amount: number; source: string; type: string }): any {
+  createReport(body: {
+    amount: number;
+    source: string;
+    type: string;
+  }): ReportResponseDTO {
     const reportType =
       body.type === 'income' ? REPORT_TYPE.INCOME : REPORT_TYPE.EXPENSE;
     const newReport = {
@@ -23,15 +30,18 @@ export class AppService {
       type: reportType,
     };
     data.report.push(newReport);
-    return newReport;
+    return new ReportResponseDTO(newReport);
   }
 
-  updateReport(body: { amount?: number; source?: string }, id: string): any {
+  updateReport(
+    body: { amount?: number; source?: string },
+    id: string,
+  ): ReportResponseDTO {
     const report = data.report.filter((el) => el.id === id)[0];
     report.amount = body.amount;
     report.source = body.source;
     report.updated_at = new Date();
-    return report;
+    return new ReportResponseDTO(report);
   }
 
   deleteReport(id: string): any {
